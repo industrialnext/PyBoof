@@ -20,24 +20,28 @@ def string_to_bytearray(message: str):
 
 class ConfigPolygonDetector(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.struct.Configuration.ConfigPolygonDetector")
+        JavaConfig.__init__(
+            self, "boofcv.struct.Configuration.ConfigPolygonDetector")
 
 
 class ConfigFiducialImage(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.factory.fiducial.ConfigFiducialImage")
+        JavaConfig.__init__(
+            self, "boofcv.factory.fiducial.ConfigFiducialImage")
 
 
 class ConfigFiducialBinary(JavaConfig):
     def __init__(self, target_width=None):
-        JavaConfig.__init__(self, "boofcv.factory.fiducial.ConfigFiducialBinary")
+        JavaConfig.__init__(
+            self, "boofcv.factory.fiducial.ConfigFiducialBinary")
         if target_width is not None:
             self.targetWidth = float(target_width)
 
 
 class ConfigHammingMarker(JavaConfig):
     def __init__(self, target_width=None):
-        JavaConfig.__init__(self, "boofcv.factory.fiducial.ConfigHammingMarker")
+        JavaConfig.__init__(
+            self, "boofcv.factory.fiducial.ConfigHammingMarker")
         if target_width is not None:
             self.targetWidth = float(target_width)
 
@@ -47,7 +51,8 @@ class ConfigFiducialHammingDetector(JavaConfig):
         if config:
             JavaConfig.__init__(self, config)
         else:
-            JavaConfig.__init__(self, "boofcv.factory.fiducial.ConfigFiducialHammingDetector")
+            JavaConfig.__init__(
+                self, "boofcv.factory.fiducial.ConfigFiducialHammingDetector")
 
 
 class HammingDictionary:
@@ -79,32 +84,38 @@ class ConfigGridDimen(JavaConfig):
 
 class ConfigChessboardBinary(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.abst.fiducial.calib.ConfigChessboardBinary")
+        JavaConfig.__init__(
+            self, "boofcv.abst.fiducial.calib.ConfigChessboardBinary")
 
 
 class ConfigChessboardX(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.abst.fiducial.calib.ConfigChessboardX")
+        JavaConfig.__init__(
+            self, "boofcv.abst.fiducial.calib.ConfigChessboardX")
 
 
 class ConfigSquareGrid(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.abst.fiducial.calib.ConfigSquareGrid")
+        JavaConfig.__init__(
+            self, "boofcv.abst.fiducial.calib.ConfigSquareGrid")
 
 
 class ConfigSquareGridBinary(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.abst.fiducial.calib.ConfigSquareGridBinary")
+        JavaConfig.__init__(
+            self, "boofcv.abst.fiducial.calib.ConfigSquareGridBinary")
 
 
 class ConfigCircleHexagonalGrid(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.abst.fiducial.calib.ConfigCircleHexagonalGrid")
+        JavaConfig.__init__(
+            self, "boofcv.abst.fiducial.calib.ConfigCircleHexagonalGrid")
 
 
 class ConfigCircleRegularGrid(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.abst.fiducial.calib.ConfigCircleRegularGrid")
+        JavaConfig.__init__(
+            self, "boofcv.abst.fiducial.calib.ConfigCircleRegularGrid")
 
 
 class ConfigQrCode(JavaConfig):
@@ -132,12 +143,14 @@ class ConfigECoCheckMarkers(JavaConfig):
         if java_config:
             JavaConfig.__init__(self, java_config)
         else:
-            JavaConfig.__init__(self, "boofcv.abst.fiducial.calib.ConfigECoCheckMarkers")
+            JavaConfig.__init__(
+                self, "boofcv.abst.fiducial.calib.ConfigECoCheckMarkers")
 
 
 class ConfigECoCheckDetector(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.abst.fiducial.calib.ConfigECoCheckDetector")
+        JavaConfig.__init__(
+            self, "boofcv.abst.fiducial.calib.ConfigECoCheckDetector")
 
 
 def ecocheck_parse(description: str, square_size: float) -> ConfigECoCheckMarkers:
@@ -190,7 +203,8 @@ class FiducialCalibrationDetector(JavaWrapper):
         for i in range(jdetected.size()):
             jp = jdetected.get(i)
             pixel = jp.getP()
-            self.detected_points.append((jp.getIndex(), pixel.getX(), pixel.getY()))
+            self.detected_points.append(
+                (jp.getIndex(), pixel.getX(), pixel.getY()))
 
 
 class FiducialCalibrationDetectorMulti(JavaWrapper):
@@ -219,7 +233,8 @@ class FiducialCalibrationDetectorMulti(JavaWrapper):
                 jp = jdetected.get(i)
                 pixel = jp.getP()
                 landmarks.append((jp.getIndex(), pixel.getX(), pixel.getY()))
-            self.detected_markers.append({"marker": marker_id, "landmarks": landmarks})
+            self.detected_markers.append(
+                {"marker": marker_id, "landmarks": landmarks})
 
 
 class FiducialDetector(JavaWrapper):
@@ -299,15 +314,16 @@ class QrCode:
             self.mask_pattern = ""
             self.mode = ""
             self.failure_cause = ""
-            self.bounds = Polygon2D(4)
-            self.pp_right = Polygon2D(4)
-            self.pp_corner = Polygon2D(4)
-            self.pp_down = Polygon2D(4)
+            self.bounds = qr_build_poly(4)
+            self.pp_right = qr_build_poly(4)
+            self.pp_corner = qr_build_poly(4)
+            self.pp_down = qr_build_poly(4)
         else:
             jobj = JavaWrapper(java_object)
             self.version = jobj.version
             self.message = jobj.message
-            self.corrected = mmap_array_java_to_python(jobj.corrected, MmapType.ARRAY_U8)
+            self.corrected = mmap_array_java_to_python(
+                jobj.corrected, MmapType.ARRAY_U8)
             self.byteEncoding = jobj.byteEncoding
             self.totalBitErrors = jobj.totalBitErrors
             self.bitsTransposed = jobj.bitsTransposed
@@ -315,10 +331,10 @@ class QrCode:
             self.mask_pattern = jobj.mask.toString()
             self.mode = jobj.mode.toString()
             self.failure_cause = ""
-            self.bounds = Polygon2D(jobj.bounds)
-            self.pp_right = Polygon2D(jobj.ppRight)
-            self.pp_corner = Polygon2D(jobj.ppCorner)
-            self.pp_down = Polygon2D(jobj.ppDown)
+            self.bounds = qr_build_poly(jobj.bounds)
+            self.pp_right = qr_build_poly(jobj.ppRight)
+            self.pp_corner = qr_build_poly(jobj.ppCorner)
+            self.pp_down = qr_build_poly(jobj.ppDown)
 
             if jobj.failureCause is not None:
                 self.failure_cause = jobj.failureCause.toString()
@@ -369,7 +385,8 @@ class MicroQrCode:
             jobj = JavaWrapper(java_object)
             self.version = jobj.version
             self.message = jobj.message
-            self.corrected = mmap_array_java_to_python(jobj.corrected, MmapType.ARRAY_U8)
+            self.corrected = mmap_array_java_to_python(
+                jobj.corrected, MmapType.ARRAY_U8)
             self.byteEncoding = jobj.byteEncoding
             self.totalBitErrors = jobj.totalBitErrors
             self.bitsTransposed = jobj.bitsTransposed
@@ -399,7 +416,8 @@ class MicroQrDetector(JavaWrapper):
 
     def detect(self, image):
         self.java_obj.process(image)
-        self.detections = [MicroQrCode(x) for x in self.java_obj.getDetections()]
+        self.detections = [MicroQrCode(x)
+                           for x in self.java_obj.getDetections()]
         self.failures = [MicroQrCode(x) for x in self.java_obj.getFailures()]
 
     def get_image_type(self):
@@ -427,8 +445,10 @@ class AztecCode:
             jobj = JavaWrapper(java_object)
             self.dataLayers = jobj.dataLayers
             self.messageWordCount = jobj.messageWordCount
-            self.rawbits = mmap_array_java_to_python(jobj.rawbits, MmapType.ARRAY_U8)
-            self.corrected = mmap_array_java_to_python(jobj.corrected, MmapType.ARRAY_U8)
+            self.rawbits = mmap_array_java_to_python(
+                jobj.rawbits, MmapType.ARRAY_U8)
+            self.corrected = mmap_array_java_to_python(
+                jobj.corrected, MmapType.ARRAY_U8)
             self.message = jobj.message
             self.structure = jobj.structure.toString()
             self.transposed = jobj.transposed
@@ -546,7 +566,7 @@ class FactoryFiducialCalibration:
         if config_detector:
             cdj = config_detector.java_obj
         java_detector = pbg.gateway.jvm.boofcv.factory.fiducial.FactoryFiducialCalibration.squareGrid(cdj,
-                                                                                                  config_grid.java_obj)
+                                                                                                      config_grid.java_obj)
         return FiducialCalibrationDetector(java_detector)
 
     @staticmethod
@@ -602,7 +622,8 @@ class FactoryFiducial:
         :return: The detector
         """
         java_detector = pbg.gateway.jvm.boofcv.factory.fiducial.FactoryFiducial. \
-            squareImage(config_fiducial.java_obj, config_threshold.java_obj, self.boof_image_type)
+            squareImage(config_fiducial.java_obj,
+                        config_threshold.java_obj, self.boof_image_type)
         return FiducialImageDetector(java_detector)
 
     def square_binary(self, config_fiducial: ConfigFiducialBinary, config_threshold: ThresholdType) -> FiducialDetector:
@@ -614,7 +635,8 @@ class FactoryFiducial:
         :return: The detector
         """
         java_detector = pbg.gateway.jvm.boofcv.factory.fiducial.FactoryFiducial. \
-            squareBinary(config_fiducial.java_obj, config_threshold.java_obj, self.boof_image_type)
+            squareBinary(config_fiducial.java_obj,
+                         config_threshold.java_obj, self.boof_image_type)
         return FiducialDetector(java_detector)
 
     def square_hamming(self, config_fiducial: ConfigHammingMarker,
@@ -630,7 +652,8 @@ class FactoryFiducial:
         if config_detector:
             jconfig_detector = config_detector.java_obj
         java_detector = pbg.gateway.jvm.boofcv.factory.fiducial.FactoryFiducial. \
-            squareHamming(config_fiducial.java_obj, jconfig_detector, self.boof_image_type)
+            squareHamming(config_fiducial.java_obj,
+                          jconfig_detector, self.boof_image_type)
         return FiducialDetector(java_detector)
 
     def chessboardB(self, config_grid: ConfigGridDimen,
@@ -802,7 +825,8 @@ class QrCodeGenerator:
 
     def __init__(self, pixels_per_module=4):
         self.java_encoder = pbg.gateway.jvm.boofcv.alg.fiducial.qrcode.QrCodeEncoder()
-        self.java_generator = pbg.gateway.jvm.boofcv.alg.fiducial.qrcode.QrCodeGeneratorImage(pixels_per_module)
+        self.java_generator = pbg.gateway.jvm.boofcv.alg.fiducial.qrcode.QrCodeGeneratorImage(
+            pixels_per_module)
 
     def reset(self):
         self.java_encoder.reset()
@@ -894,7 +918,8 @@ class SquareHammingGenerator:
         """
         self.border_pixels = 0
         self.pixels_per_square = pixels_per_square
-        self.java_generator = pbg.gateway.jvm.boofcv.alg.fiducial.square.FiducialSquareHammingGenerator(config.java_obj)
+        self.java_generator = pbg.gateway.jvm.boofcv.alg.fiducial.square.FiducialSquareHammingGenerator(
+            config.java_obj)
         self.java_engine = pbg.gateway.jvm.boofcv.alg.drawing.FiducialImageEngine()
         self.java_generator.setRenderer(self.java_engine)
 
@@ -1045,17 +1070,20 @@ class RandomDotDefinition(JavaWrapper):
         if java_object:
             JavaWrapper.__init__(self, java_object)
         else:
-            JavaWrapper.__init__(self, "boofcv.io.fiducial.RandomDotDefinition")
+            JavaWrapper.__init__(
+                self, "boofcv.io.fiducial.RandomDotDefinition")
 
 
 def save_random_dot_yaml(definition: RandomDotDefinition, path: str):
     java_writer = create_java_file_writer(path)
-    pbg.gateway.jvm.boofcv.io.fiducial.FiducialIO.saveRandomDotYaml(definition, java_writer)
+    pbg.gateway.jvm.boofcv.io.fiducial.FiducialIO.saveRandomDotYaml(
+        definition, java_writer)
 
 
 def load_random_dot_yaml(path: str):
     java_file = pbg.gateway.jvm.java.io.File(path)
-    java_obj = pbg.gateway.jvm.boofcv.io.fiducial.FiducialIO.loadRandomDotYaml(java_file)
+    java_obj = pbg.gateway.jvm.boofcv.io.fiducial.FiducialIO.loadRandomDotYaml(
+        java_file)
     return RandomDotDefinition(java_obj)
 
 
@@ -1073,7 +1101,8 @@ class SceneRecognition(JavaWrapper):
 
         # Create a Java iterator that will load the images from disk
         java_imageType = self.java_obj.getImageType()
-        java_iterator = pbg.gateway.jvm.boofcv.io.image.ImageFileListIterator(java_list, java_imageType)
+        java_iterator = pbg.gateway.jvm.boofcv.io.image.ImageFileListIterator(
+            java_list, java_imageType)
 
         # Learn the model from the images
         self.java_obj.learnModel(java_iterator)
@@ -1092,7 +1121,8 @@ class SceneRecognition(JavaWrapper):
         Looks up the images which are the best match for the query image
         """
         java_class = pbg.gateway.jvm.boofcv.abst.scene.SceneRecognition.Match().getClass()
-        java_matches = pbg.gateway.jvm.pyboof.PyBoofEntryPoint.createDogArray(java_class)
+        java_matches = pbg.gateway.jvm.pyboof.PyBoofEntryPoint.createDogArray(
+            java_class)
         self.java_obj.query(query_image, None, limit, java_matches)
 
         # Convert the java results into a python list of dict
@@ -1113,7 +1143,8 @@ class SceneRecognition(JavaWrapper):
 
 class ConfigFeatureToSceneRecognition(JavaConfig):
     def __init__(self):
-        JavaConfig.__init__(self, "boofcv.abst.scene.ConfigFeatureToSceneRecognition")
+        JavaConfig.__init__(
+            self, "boofcv.abst.scene.ConfigFeatureToSceneRecognition")
 
 
 class FactorySceneRecognition:

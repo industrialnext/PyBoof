@@ -203,6 +203,14 @@ class Polygon2D:
         ret += ")"
         return ret
 
+def qr_result_build_point(o):
+    return Point2D(o.getX(), o.getY())
+
+
+def qr_build_poly(o):
+    poly = Polygon2D()
+    poly.vertexes = [qr_result_build_point(o.get(i)) for i in range(4)]
+    return poly
 
 class Quadrilateral2D:
     """
